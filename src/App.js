@@ -101,6 +101,7 @@ function App() {
   const [claimingNft, setClaimingNft] = useState(false);
   const [feedback, setFeedback] = useState(`Click buy to mint your NFT.`);
   const [tokenId, setTokenId] = useState(1)
+  const [_newStory, writeNewStory] = useState(2)
   const [CONFIG, SET_CONFIG] = useState({
     CONTRACT_ADDRESS: "",
     SCAN_LINK: "",
@@ -120,22 +121,22 @@ function App() {
     SHOW_BACKGROUND: false,
   });
 
-  const claimNFTs = () => {
-    let cost = CONFIG.WEI_COST;
+  const writeStory = () => {
+    
     let gasLimit = CONFIG.GAS_LIMIT;
-    let totalCostWei = String(cost);
+    
     let totalGasLimit = String(gasLimit);
-    console.log("Cost: ", totalCostWei);
+    
     console.log("Gas limit: ", totalGasLimit);
     setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
     setClaimingNft(true);
     blockchain.smartContract.methods
-      .claim(tokenId)
+      .writeStory(tokenId,_newStory)
       .send({
-        gasLimit: String(totalGasLimit),
-        to: CONFIG.CONTRACT_ADDRESS,
+       // gasLimit: String(totalGasLimit),
+      //  to: CONFIG.CONTRACT_ADDRESS,
         from: blockchain.account,
-        value: totalCostWei,
+      //  value: totalCostWei,
       })
       .once("error", (err) => {
         console.log(err);
@@ -355,6 +356,7 @@ function App() {
                        <s.form>        
                      <s.TextDescription
                      style={{ textAlign: "center", color: "var(--accent-text)" }}>TokenId</s.TextDescription>
+                     <s.TextDescription>You can only write story on your own NFT pages</s.TextDescription>
                      <input
                        type="uint256"
                         placeholder="Choose from 1 to 99888"
@@ -362,6 +364,17 @@ function App() {
                      />              
                    </s.form> </s.Container>
                    <s.SpacerMedium />
+
+                   <s.TextDescription //Story
+                     style={{ textAlign: "center", color: "var(--accent-text)" }}>Write Your Story</s.TextDescription>
+                     <s.SpacerXSmall />
+                     <s.TextDescription> 
+                       <input class="input"
+                       type="string"
+                       placeholder="Write your story"
+                       onChange={(event) => writeNewStory(event.target.value)}
+                     /> </s.TextDescription> 
+
                    <s.Container ai={"center"} jc={"center"} fd={"row"}>
                    <StyledButton                        
                         disabled={claimingNft ? 1 : 0}                        

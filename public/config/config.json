@@ -1,16 +1,16 @@
 {
-  "CONTRACT_ADDRESS": "0x44bBB1D7ccf8CB457C6e541E38ea91A4F1b30e71",
+  "CONTRACT_ADDRESS": "0x601BC914Fe3eAFA24Ef4519d23881D8319fCE7EE",
   "SCAN_LINK": "https://polygonscan.com/token/0x827acb09a2dc20e39c9aad7f7190d9bc53534192",
   "NETWORK": {
     "NAME": "Polygon",
     "SYMBOL": "Matic",
-    "ID": 137
+    "ID": 80001
   },
-  "NFT_NAME": "Isekai Character",
-  "SYMBOL": "Character",
-  "MAX_SUPPLY": 100000,
-  "WEI_COST": 1000000000000000000,
-  "DISPLAY_COST": 1,
+  "NFT_NAME": "Isekai Story Page",
+  "SYMBOL": "ISP",
+  "MAX_SUPPLY": 1000000,
+  "WEI_COST": 0,
+  "DISPLAY_COST": 0,
   "GAS_LIMIT": 2850000,
   "MARKETPLACE": "Opeansea",
   "MARKETPLACE_LINK": "https://opensea.io/collection/isekaicharacter",
