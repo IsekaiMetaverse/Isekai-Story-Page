@@ -1,6 +1,39 @@
 .input {
-    width:180px;
-    height:30px;
+    width:280px;
+    height:230px;
     background-color: #f2fcfd;
     
 }
+
+#textarea {
+
+display: block;
+
+margin:0 auto;
+
+overflow: hidden;
+
+width: 550px;
+
+ font-size: 18px;
+
+height: 18px;
+
+line-height: 24px;
+
+ padding:2px;
+
+ text-align: left;
+
+}
+
+textarea {
+
+ outline: 0 none;
+
+border-color: rgba(82, 168, 236, 0.8);
+
+ box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);
+
+}
+

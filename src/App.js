@@ -121,6 +121,38 @@ function App() {
     SHOW_BACKGROUND: false,
   });
 
+   const claimNFTs = () => {
+    //let cost = CONFIG.WEI_COST;
+    let gasLimit = CONFIG.GAS_LIMIT;
+    //let totalCostWei = String(cost);
+    let totalGasLimit = String(gasLimit);
+    //console.log("Cost: ", totalCostWei);
+    console.log("Gas limit: ", totalGasLimit);
+    setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
+    setClaimingNft(true);
+    blockchain.smartContract.methods
+     .claim()
+    .send({
+     //   gasLimit: String(totalGasLimit),
+     //  to: CONFIG.CONTRACT_ADDRESS,
+       from: blockchain.account,
+     //  value: totalCostWei,
+      })
+      .once("error", (err) => {
+        console.log(err);
+        setFeedback("Sorry, something went wrong please try again later.");
+        setClaimingNft(false);
+      })
+      .then((receipt) => {
+        console.log(receipt);
+        setFeedback(
+          `WOW, the ${CONFIG.NFT_NAME} is yours! go visit Opensea.io to view it.`
+        );
+        setClaimingNft(false);
+        dispatch(fetchData(blockchain.account));
+      });
+  };
+
   const writeStory = () => {
     
     let gasLimit = CONFIG.GAS_LIMIT;
@@ -129,7 +161,7 @@ function App() {
     
     console.log("Gas limit: ", totalGasLimit);
     setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
-    setClaimingNft(true);
+    setClaiming(true);
     blockchain.smartContract.methods
       .writeStory(tokenId,_newStory)
       .send({
@@ -209,7 +241,7 @@ function App() {
                 fontSize: 50,
                 fontWeight: "bold",
                 color: "var(--accent-text)",
-              }}>Isekai Character</s.TextTitle>
+              }}>Isekai Story Page</s.TextTitle>
         <s.SpacerXSmall/>
         <s.Container1>        
         <s.TextTitleButton >
@@ -294,8 +326,7 @@ function App() {
                 <s.TextTitle
                   style={{ textAlign: "center", color: "var(--accent-text)" }}
                 >
-                  1 {CONFIG.SYMBOL} costs {CONFIG.DISPLAY_COST}{" "}
-                  {CONFIG.NETWORK.SYMBOL}.
+                  Claim your Isekai Story Page with your Isekai Character 
                 </s.TextTitle>
                 <s.SpacerXSmall />
                 <s.TextDescription
@@ -353,28 +384,84 @@ function App() {
                     
                     <s.SpacerSmall />
                     <s.Container ai={"center"} jc={"center"} fd={"row"}>
-                       <s.form>        
-                     <s.TextDescription
-                     style={{ textAlign: "center", color: "var(--accent-text)" }}>TokenId</s.TextDescription>
-                     <s.TextDescription>You can only write story on your own NFT pages</s.TextDescription>
-                     <input
-                       type="uint256"
-                        placeholder="Choose from 1 to 99888"
-                         onChange={(event) => setTokenId(event.target.value)}
-                     />              
-                   </s.form> </s.Container>
-                   <s.SpacerMedium />
+                   
+                    <StyledButton                        
+                        disabled={claimingNft ? 1 : 0}                        
+                        onClick={(e) => {
+                          e.preventDefault();
+                          claimNFTs();
+                          getData();
+                        }}
+                      >
+                        {claimingNft ? "BUSY" : "BUY"}
+                    </StyledButton>
+                   </s.Container>
 
-                   <s.TextDescription //Story
+                    <s.SpacerLarge/>
+                    <s.SpacerLarge/>
+
+                    {/* The form starts here */}
+                    <s.Container2  
+                    flex={2}
+                    jc={"center"}
+                    ai={"center"}
+                    style={{
+                    backgroundColor: "#245775",
+                    padding: 30,
+                    borderRadius: 3,
+                    //border: "0.5rem solid #26516e",
+                    boxShadow: "0px 2px 5px 1px rgba(0,0,0,0.7)",
+            }}>
+
+                {/* The form starts here */}
+                     <s.form style={{textAlign:"center"}}>        
+                     <s.TextDescription //tokenId
+                     style={{textAlign: "center", color: "var(--accent-text)" }}>TokenId <br/> </s.TextDescription>
+                     <s.SpacerXSmall />
+                     <s.TextDescription style={{textAlign: "center", fontSize: "12px", color: "#d1d1d1" }}>
+                       (You can only set Characters that belong to you)                     
+                     </s.TextDescription>
+
+                     <s.SpacerSmall />
+
+                     <s.TextDescription
+                     style={{ textAlign: "center", color: "var(--accent-text)" }}>
+                        <input class="input"
+                        style={{width: "180px", height: "30px"}}
+                        type="uint256"
+                        placeholder="Enter your TokenId here"
+                        onChange={(event) => setTokenId(event.target.value)}
+                     />    
+                     </s.TextDescription> 
+
+                      <s.SpacerXSmall />  
+
+                  
+
+                 
+                       
+                                 
+                        
+                     <s.TextDescription //Story
                      style={{ textAlign: "center", color: "var(--accent-text)" }}>Write Your Story</s.TextDescription>
                      <s.SpacerXSmall />
                      <s.TextDescription> 
-                       <input class="input"
+                       {/*  
+                       <input class="input" 
                        type="string"
                        placeholder="Write your story"
                        onChange={(event) => writeNewStory(event.target.value)}
-                     /> </s.TextDescription> 
-
+                     /> */}
+                     <textarea id="textarea" 
+                      type="string"
+                     placeholder="Write your story"
+                     onChange={(event) => writeNewStory(event.target.value)}></textarea>
+                     </s.TextDescription> 
+                    
+                     <s.SpacerMedium />
+                      </s.form> </s.Container2>
+                   
+                   <s.SpacerMedium />
                    <s.Container ai={"center"} jc={"center"} fd={"row"}>
                    <StyledButton                        
                         disabled={claimingNft ? 1 : 0}                        
@@ -384,7 +471,7 @@ function App() {
                           getData();
                         }}
                       >
-                        {claimingNft ? "BUSY" : "BUY"}
+                        {claimingNft ? "BUSY" : "Publish"}
                       </StyledButton>
                     </s.Container>
                   </>

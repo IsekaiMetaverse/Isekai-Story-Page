@@ -59,6 +59,11 @@ export const Container1 = styled.div`
   margin: 10px;
   display: flex;
   `;
+    export const Container2 = styled.div`
+  padding: 0px 10px;
+  margin: 0;
+  display: flex;
+  `;
 
 export const TextTitle = styled.p`
   color: var(--primary-text);
