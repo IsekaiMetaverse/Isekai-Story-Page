@@ -161,7 +161,7 @@ function App() {
     
     console.log("Gas limit: ", totalGasLimit);
     setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
-    setClaiming(true);
+    setClaimingNft(true);
     blockchain.smartContract.methods
       .writeStory(tokenId,_newStory)
       .send({
@@ -389,7 +389,7 @@ function App() {
                         disabled={claimingNft ? 1 : 0}                        
                         onClick={(e) => {
                           e.preventDefault();
-                          writeStory();
+                          claimNFTs();
                           getData();
                         }}
                       >
@@ -467,7 +467,7 @@ function App() {
                         disabled={claimingNft ? 1 : 0}                        
                         onClick={(e) => {
                           e.preventDefault();
-                          claimNFTs();
+                          writeStory();
                           getData();
                         }}
                       >
